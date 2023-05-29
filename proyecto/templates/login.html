@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% block title %} Agencia - Iniciar Sesion {% endblock %}
+{% block content %}
+
+<!--INICIO-->   
+<header id="inicio">
+    <div class="dark-overlay">
+     <div class="inicio">
+      <div class="container">
+       <div class="row">
+         <!-- COLUMNA IZQUIERDA -->
+          <div class="col-lg-6 d-none d-sm-block">
+            <div class="titulo-izquierda" id="parrafo1"><h1 class="display-4"> Bienvenido a AgenciApp</h1></div>
+              <div class="texto"> <div class="d-flex flex-row" style="color:lightyellow">
+             <div class="p-4 align-self-start"><i class="fas fa-plane"></i></div>
+              <div class="p-4 align-self-end"> Te damos la más cordial bienvenida a nuestra página web, en la que, esperamos, encuentres toda la información que necesites acerca de nuestras actividades.</div>
+                 </div>
+
+                 <div class="d-flex flex-row" style="color: lightyellow">
+                    <div class="p-4 align-self-start"><i class="fas fa-bus"></i></div>
+                    <div class="p-4 align-self-end"> Nuestro objetivo principal como página web es plasmar los valores que nos respaldan: el compromiso social, la máxima calidad y la voluntad de servicio, así como nuestro interés por todas aquellas ventajas que nos ofrece la tecnología. Todo ello tiene una presencia destacada en esta página web ofreciéndole lo mejor de nosotros para su satisfaccion</div>
+        
+                    </div>
+                  
+                    <div class="d-flex flex-row" style="color: lightyellow;">
+                        <div class="p-4 align-self-start"><i class="fas fa-ship"></i></div>
+                        <div class="p-4 align-self-end"> Y queremos dar las gracias a nuestro fundador Christian Barbosa; a nuestros profesionales y, sobre todo, gracias a todos nuestros clientes, por la confianza de todos estos años. </div>
+            
+                        </div>   
+        
+        </div> 
+      </div>
+         <!-- COLUMNA DERECHA-->
+         <div class="col-lg-4">
+           <div class="formulario" id="sesion">
+             <div class="sesion1" class="card text-center" style="background-color: #099dff; ">
+            <div class="card-body">
+              <h3>Iniciar Sesion</h3>
+              
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+              {% for m  in messages %}
+              <div class="alert alert-danger" role="alert">
+                {{ m }}
+              </div>
+              {% endfor %}
+              {% endif %}
+              {% endwith %}
+
+              <form action="/login" method="POST">
+              <div class="form-group">
+                <input type="text" name="Usuario" placeholder="Usuario"
+                class="form-control form-control-lg" autocomplete="off"></div>
+                <div class="form-group">
+                    <input type="password" name="clave" placeholder="Contraseña"
+                    class="form-control form-control-lg"></div>
+                <input type="submit" name="iniciarsesion" class="btn btn-outline-light btn-block"> 
+                <p></p> 
+              <p> No tienes cuenta?... <a href="/register" style="color: blue;"> Crear una </a></p>
+              </form>  
+            
+             </div>
+             </div>
+           </div>
+         </div>
+        </div>
+       </div>  
+      </div>
+     </div>
+    
+     </header>
+     {% endblock %}

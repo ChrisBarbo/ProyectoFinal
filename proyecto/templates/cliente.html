@@ -1,0 +1,174 @@
+{% extends 'layout.html' %}
+{% block title %} Clientes {% endblock %}
+{% block content %}
+<section style="padding-top: 100px; background-color: white; color: black";>
+    <div class="container">
+        <h1 style="color: black">Clientes</h1>
+        
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">Telefono</th>
+                <th scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for c in cliente %}
+              <tr>
+                <th scope="row">{{ c.idcliente }}</th>
+                <td>{{ c.nombrec }}</td>
+                <td>{{ c.correoc }}</td>
+                <td>{{ c.Usuario }}</td>
+                <td>{{ c.telefonoc }}</td>
+                <td>
+
+                  <!-- EDITAR  -->
+                  {% if session['nombrec'] == 'Administrador' %}
+                  <a class="btn btn-primary" data-toggle="modal" data-target="#editarModal{{ c.idcliente }}">Editar </a>
+                  {% endif %}
+
+                  {% if session['nombrec'] == 'Administrador' %}
+                  <a class="btn btn-danger" href="/dCliente/{{c.idcliente}}" onclick="return confirm('Seguro que Deseas Eliminar')">Eliminar </a>
+                  {% endif %}
+                </td> 
+            </tr>
+
+            <!-- Modal EDITAR  -->
+<div class="modal fade" id="editarModal{{ c.idcliente }}" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarModalLabel"> Editar Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <form action="/uCliente" method="POST">
+      <div class="modal-body">
+          <input type="hidden" name="idcliente" value="{{ c.idcliente }}">
+        
+          <div class="form-group">
+            <label for="inputAddress2">Usuario</label>
+            <input type="text" name="Usuario" value="{{ c.Usuario }}" class="form-control" id="inputAddress2" placeholder="Usuario" autocomplete="off">
+       </div>
+          <div class="form-group">
+               <label for="inputAddress2">Nombre</label>
+               <input type="text" name="nombrec" value="{{ c.nombrec }}" class="form-control" id="inputAddress2" placeholder="Nombre" autocomplete="off">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Correo</label>
+              <input type="email" name="correoc" value="{{ c.correoc }}" class="form-control" id="inputEmail4" placeholder="Email" autocomplete="off">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Direccion</label>
+              <input type="text" name="direccion" value="{{c.direccion}}" class="form-control" id="inputPassword4" placeholder="Direccion" autocomplete="off">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputAddress">Telefono</label>
+            <input type="number" name="telefonoc" value="{{ c.telefonoc }}" class="form-control" id="inputAddress" placeholder="Numero de telefono">
+          </div>
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">Contraseña</label>
+                <input type="password" name="clave" class="form-control" id="inputCity" placeholder="Contraseña">
+              </div>
+            </div>
+          <div class="form-group">
+            
+          </div>
+
+          
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('¿Estás seguro de que deseas realizar los cambios?')">Guardar Cambios</button>
+          </div>
+      
+          
+
+      
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
+              {% else %}
+              <tr>
+                  <td colspan="5">Sin Registro</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Nuevo Cliente
+          </button>
+    </div>
+
+
+<!-- Modal / ELIMINAR-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form action="/iCliente" method="POST">    
+          <div class="form-group">
+            <label for="inputAddress2">Usuario</label>
+            <input type="text" name="Usuario" class="form-control" id="inputAddress2" placeholder="Usuario" autocomplete="off">
+       </div>
+          <div class="form-group">
+               <label for="inputAddress2">Nombre</label>
+               <input type="text" name="nombrec" class="form-control" id="inputAddress2" placeholder="Nombre" autocomplete="off">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Correo</label>
+              <input type="emai" name="correoc" class="form-control" id="inputEmail4" placeholder="Email" autocomplete="off">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Direccion</label>
+              <input type="text" name="direccion" class="form-control" id="inputPassword4" placeholder="Direccion" autocomplete="off">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="inputAddress">Telefono</label>
+            <input type="text" name="telefonoc"class="form-control" id="inputAddress" placeholder="Numero de telefono">
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputCity">Contraseña</label>
+              <input type="password" name="clave" class="form-control" id="inputCity" placeholder="Contraseña">
+            </div>
+          </div>
+          <div class="form-group">
+            
+          </div>
+
+          
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Agregar Cliente</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+{% endblock %}

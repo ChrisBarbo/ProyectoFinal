@@ -1,0 +1,163 @@
+{% extends 'layout.html' %}
+{% block title %} Transporte {% endblock %}
+{% block content %}
+<section style="padding-top: 100px; background-color: white; color: black";>
+    <div class="container">
+        <h1 style="color: black"> Transporte </h1>
+
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col"> Tipo de Transporte</th>
+                <th scope="col">ID Transporte</th>
+                <th scope="col">Clase</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Compañia</th>
+                <th scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for t in transporte %}
+              <tr>
+                <th scope="row">{{ t.tipot }}</th>
+                <td>{{ t.idtransporte }}</td>
+                <td>{{ t.clase }}</td>
+                <td>{{ t.preciot }}</td>
+                <td>{{ t.marca }}</td>
+                <td>
+
+                    {% if session['nombrec'] == 'Administrador' %}
+                  <a class="btn btn-primary" data-toggle="modal" data-target="#editarModal{{ t.idtransporte }}">Editar </a>
+                    {% endif %}
+
+                  {% if session['nombrec'] == 'Administrador' %}
+                  <a class="btn btn-danger" href="/dTrans/{{t.idtransporte}}" onclick="return confirm('Seguro que Deseas Eliminar?')">Eliminar </a>
+                  {% endif %}
+                </td> 
+            </tr>
+
+            <!-- Modal EDITAR  -->
+<div class="modal fade" id="editarModal{{ t.idtransporte }}" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarModalLabel"> Editar Transporte</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/uTrans" method="POST">
+      <div class="modal-body">
+      
+          <input type="hidden" name="idtransporte" value="{{ t.idtransporte }}">
+
+          <div class="form-group">
+              <label>Tipo </label>
+              <select class="custom-select" id="inputGroupSelect01" name="tipot" value="{{ t.tipot }}"  placeholder="Tipo">
+                  <option value="Avion">Avion</option>
+                  <option value="Camion">Camion</option>
+                  <option value="Barco">Barco</option>
+                  <option value="Tren">Tren</option>
+                </select>
+         </div>
+
+         <div class="form-group">
+            <label for="inputAddress2">Clase</label>
+            <select class="custom-select" id="inputGroupSelect01" name="clase" value="{{ t.clase }}" placeholder="Clase">
+                <option value="Primera Clase">Primera Clase</option>
+                <option value="Clase Turista">Clase Turista</option>
+            </select>
+      </div>
+
+          <div class="form-group">
+               <label for="inputAddress2">Precio</label>
+               <input type="number" name="preciot" value="{{ t.preciot }}" class="form-control" id="inputAddress2" placeholder="Precio $">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4"> Compañia </label>
+              <input type="text" name="marca" value="{{ t.marca }}" class="form-control" id="inputEmail4" placeholder="Marca" autocomplete="off">
+            </div>
+            
+          <div class="form-group">
+            
+          </div>
+ 
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('¿Estás seguro de que deseas realizar los cambios?')">Guardar Cambios</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+            {% else %}
+              <tr>
+                  <td colspan="5">Sin Registro</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Nuevo Transporte
+          </button>
+    </div>
+
+<!-- Modal / ELIMINAR-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Transporte</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form action="/iTrans" method="POST">
+          <div class="form-group">
+            <label>Tipo </label>
+            <select class="custom-select" id="inputGroupSelect01" name="tipot"  placeholder="Tipo">
+                <option value="Avion">Avion</option>
+                <option value="Camion">Camion</option>
+                <option value="Barco">Barco</option>
+                <option value="Tren">Tren</option>
+              </select>
+       </div>
+          
+          <div class="form-group">
+            <label for="inputAddress2">Clase</label>
+            <select class="custom-select" id="inputGroupSelect01" name="clase"  placeholder="Clase">
+                <option value="Primera Clase">Primera Clase</option>
+                <option value="Clase Turista">Clase Turista</option>
+            </select>
+      </div>
+
+          <div class="form-group">
+               <label for="inputAddress2">Precio</label>
+               <input type="number" name="preciot" class="form-control" id="inputAddress2" placeholder="Precio">
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Compañia</label>
+              <input type="text" name="marca" class="form-control" id="inputEmail4" placeholder="Compañia" autocomplete="off">
+            </div>
+            <div class="form-group">
+              
+            </div>
+
+          
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary"> Agregar Transporte</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>    
+
+    {% endblock %}

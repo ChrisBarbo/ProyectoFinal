@@ -1,0 +1,237 @@
+{% extends 'layout.html' %}
+{% block title %} Reservacion {% endblock %}
+{% block content %}
+<section style="padding-top: 100px; background-color: white; color: black";>
+    <div class="container">
+        <h1 style="color: black">Reservacion</h1>
+       
+<!--idhotel	idrecamara	idreservacion	idtransporte	cantdias	cantpersonas	cin	cout	llegadah	salidah-->        
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID Reservacion</th>
+              <!--  <th scope="col">ID Cliente</th> -->
+              <!--  <th scope="col">ID Hotel</th> -->
+              <!--  <th scope="col">ID Transporte</th> -->
+                <th scope="col">Nombre Cliente</th>
+                <th scope="col">Nombre Hotel</th>
+                <th scope="col">Tipo Transporte</th>
+                <th scope="col">No.Dias</th>
+                <th scope="col">No.Personas</th>
+                <th scope="col">Fecha LLegada</th>
+                <th scope="col">Fecha Salida</th>
+                <th scope="col">Ubicacion</th>
+                <th scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for r in reservaciones %}
+              <tr>
+                <th scope="row">{{ r.idreservacion }}</th>
+              <!--  <td>{{ r.idcliente }}</td> -->
+              <!--  <td>{{ r.idhotel }}</td> -->
+              <!--  <td>{{ r.idtransporte }}</td> -->
+                <td>{{ r.nombrec }}</td>
+                <td>{{ r.nombreh }}</td>
+                <td>{{ r.tipot }}</td>
+                <td>{{ r.cantdias }}</td>
+                <td>{{ r.cantpersonas }}</td>
+                <td>{{ r.llegadah }}</td>
+                <td>{{ r.salidah }}</td>
+                <td>{{ r.ubicacion }}</td>
+                <td>
+                  <a class="btn btn-primary" data-toggle="modal" data-target="#editarModal{{ r.idreservacion }}">Editar </a>
+                  <a class="btn btn-danger" href="/dResv/{{r.idreservacion}}" onclick="return confirm('Seguro que Deseas Eliminar')">Eliminar </a>
+                </td> 
+            </tr>
+
+            <!-- Modal EDITAR  -->
+<div class="modal fade" id="editarModal{{ r.idreservacion }}" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarModalLabel"> Editar Reservacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/uResv" method="POST">
+      <div class="modal-body">
+
+          <input type="hidden" name="idreservacion" value="{{ r.idreservacion }}">
+          
+
+          <div class="form-group col-md-7">
+            <label> Nombre de Cliente</label>
+            <select name="idcliente" class="form-control">
+              {% for c in clientes %}
+              <option value="{{c.idcliente}}">{{c.nombrec}}</option>
+              {% else %}
+              <option > Sin Registros</option>
+              {% endfor %}
+            </select>
+          </div>
+      
+        <div class="form-group col-md-7">
+          <label> Nombre del Hotel</label>
+          <select name="idhotel" class="form-control">
+            {% for h in hospedajes %}
+            <option value="{{h.idhotel}}">{{h.nombreh}}</option>
+            {% else %}
+            <option > Sin Registros</option>
+            {% endfor %}
+          </select>
+        </div>    
+          
+
+      <div class="form-group col-md-7">
+        <label> Tipo de Transporte</label>
+        <select name="idtransporte" class="form-control">
+            {% for t in transportes %}
+            <option value="{{t.idtransporte}}">{{t.tipot}}</option>
+            {% else %}
+            <option > Sin Registros</option>
+            {% endfor %}
+        </select>
+    </div>
+        
+          <div class="form-group">
+            <label for="inputAddress2">Cantidad de Dias</label>
+            <input type="number" name="cantdias" value="{{ r.cantdias }}" class="form-control" id="inputAddress2" placeholder="Cantidad Dias">
+       </div>
+          <div class="form-group">
+               <label for="inputAddress2">Cantidad de Personas</label>
+               <input type="number" name="cantpersonas" value="{{ r.cantpersonas }}" class="form-control" id="inputAddress2" placeholder="Cantidad Personas">
+          </div>
+
+          <div class="form-group">
+            <label for="inputAddress">Fecha LLegada</label>
+            <input type="datetime-local" name="llegadah" value="{{ r.llegadah }}" class="form-control" id="inputAddress" placeholder="Fecha LLegada">
+          </div>
+
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">Fecha de Salida</label>
+                <input type="datetime-local" name="salidah" value="{{ r.salidah }}" class="form-control" id="inputCity" placeholder="Fecha Salida">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputCity">Ubicacion</label>
+                <input type="text" name="ubicacion" value="{{ r.ubicacion }}" class="form-control" id="inputCity" placeholder="Ubicacion" autocomplete="off">
+              </div>
+            </div>  
+        
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary" onclick="return confirm('¿Estás seguro de que deseas realizar los cambios?')">Guardar Cambios</button>
+            </div>
+
+
+      </form>
+    </div>
+  </div>
+</div>
+
+  
+</div>
+
+
+              {% else %}
+              <tr>
+                  <td colspan="5">Sin Registro</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Nueva Reservacion
+          </button>
+    </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nueva Reservacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <form action="/iResv" method="POST" >
+            <div class="form-group col-md-7">
+                  <label> Nombre del Cliente</label>
+                  <select name="idcliente" class="form-control">
+                  {% for c in clientes %}
+                  <option value="{{c.idcliente}}">{{c.nombrec}}</option>
+                  {% else %}
+                  <option > Sin Registros</option>
+                  {% endfor %}
+                </select>
+            </div> 
+        
+          <div class="form-group col-md-7">
+                <label> Nombre del Hotel</label>
+                <select name="idhotel" class="form-control">
+                {% for h in hospedajes %}
+                <option value="{{h.idhotel}}">{{h.nombreh}}</option>
+                {% else %}
+                <option > Sin Registros</option>
+                {% endfor %}
+                </select>
+          </div> 
+          
+            <div class="form-group col-md-7">
+                <label> Tipo Transporte</label>
+                <select name="idtransporte" class="form-control">
+                    {% for t in transportes %}
+                    <option value="{{t.idtransporte}}">{{t.tipot}}</option>
+                    {% else %}
+                    <option > Sin Registros</option>
+                    {% endfor %}
+                </select>
+            </div>
+       
+          
+            <div class="form-group">
+              <label for="inputAddress2">Cantidad de Dias</label>
+              <input type="number" name="cantdias" class="form-control" id="inputAddress2" placeholder="Cantidad Dias">
+         </div>
+            <div class="form-group">
+                 <label for="inputAddress2">Cantidad de Personas</label>
+                 <input type="number" name="cantpersonas" class="form-control" id="inputAddress2" placeholder="Cantidad Personas">
+            </div>
+            
+            <div class="form-group">
+              <label for="inputAddress">Fecha LLegada</label>
+              <input type="datetime-local" name="llegadah"  class="form-control" id="inputAddress" placeholder="Fecha de Llegada">
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputCity">Fecha Salida</label>
+                  <input type="datetime-local" name="salidah"  class="form-control" id="inputCity" placeholder="Fecha de Salida">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputCity">Ubicacion</label>
+                  <input type="text" name="ubicacion"  class="form-control" id="inputCity" placeholder="Ubicacion" autocomplete="off">
+                </div>
+              </div>  
+          
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary" onclick="return confirm('¿Deseas confirmar la reservacion?')">  Reservar </button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+{% endblock %}

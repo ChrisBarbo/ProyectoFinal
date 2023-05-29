@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">-->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}" >
+    <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+    
+</head>
+<body>
+
+  <div id="top"></div>
+
+    <!--NAVBAR-->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+           <div class="titulo-navbar"><a class="navbar-brand" href="/login" style="color: #ffffff"> Planificador de Agencia</a></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/home">Inicio <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#acerca">Acerca de </a>
+                </li>
+
+                {% if session['nombrec'] %}
+
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Herramientas
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/sCliente">Cliente</a>
+                    <a class="dropdown-item" href="/sTrans">Transporte</a>
+                    <a class="dropdown-item" href="/sHosp"> Hospedaje</a>
+                    <a class="dropdown-item" href="/sResv"> Reservacion</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="home"> Inicio</a>
+                  </div>
+                </li>
+
+                <a class="navbar-brand">{{ session['nombrec'] }} </a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Cerrar Sesión</a>
+                </li>
+
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="/login">Iniciar Sesión</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Registrate</a>
+                  </li>
+                  {% endif %}
+                
+              </ul>
+            </div>
+          </nav>
+       {% block content %}{% endblock %}
+       
+       <section class="info" style="background-color:#099dff">
+
+        <style>
+          .info {
+            margin-top: 20px;
+          }
+        </style>
+
+       <section class="info" style="background-color:#099dff">
+       <div class="container">
+        <div class="row">
+          <div class="col text-center p-5 " class="info" >
+         <h1 class="display-4"> Acerca de </h1>
+         <p> Somos una empresa fundada en 2023 en el área de agentes de viajes con la convicción de satisfacer a nuestros clientes <br>AgenciApp es una empresa encargada de la planificación de viajes para facilitarle a las Agencias de Viajes parte de su trabajo </p>
+         
+          </div>
+        </div>
+       </div>
+       </section>
+      
+       
+
+       <section id="acerca" style="background-color:slategrey;">
+        <div class="container">
+          <div class="row">
+            <!-- COLUMNA IZQUIERDA -->
+             <div class="col-lg-6 d-none d-sm-block">
+               <img src="{{url_for('static',filename='img/aeropuerto.jpg')}}" class="img-fluid mb-3 roude-circle">
+           
+           </div> 
+         
+            <!-- COLUMNA DERECHA-->
+            <div class="col-lg-6">
+              
+                <div class="d-flex flex-row">
+                    <div class="p-4 align-self-start"><i class="fas fa-plane"></i></div>
+                    <div class="p-4 align-self-end"> Ofrecemos soluciones simples en relacion a la planificación de viajes segun las necesidades de nuestros clientes.</div>
+        
+                    </div>
+                  
+                    <div class="d-flex flex-row">
+                        <div class="p-4 align-self-start"><i class="fas fa-bus"></i></div>
+                        <div class="p-4 align-self-end"> Como AgenciApp trabajamos ayudando a los agentes de viajes particularmente y a nuestros principales clientes las agencias de viajes para trabajar de una manera más eficiente. </div>
+            
+                        </div>  
+
+                        <div class="d-flex flex-row">
+                            <div class="p-4 align-self-start"><i class="fas fa-ship"></i></div>
+                             <div class="p-4 align-self-end"> Contamos con una amplia variedad de servicios, diversidad de transportes tales como, avion, autobus, tren, etc y de toda clase de hoteles para el alcance de nuestros clientes </div>
+                                </div>    
+                 
+               </div>
+ 
+              </div>
+            </div>
+           
+       </section>
+
+   
+    <!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->  
+    <script src="{{url_for('static',filename='js/popper.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/jquery-3.4.1.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/bootstrap.min.js')}}"></script>
+    <script src="{{url_for('static',filename='js/all.js')}}"></script>
+    <script src="{{url_for('static',filename='js/scrollreveal.min.js')}}"></script>
+
+    <script> 
+        window.sr = ScrollReveal();
+        sr.reveal('.navbar',{
+          origin:'left', 
+          duration: 2000,
+          distance:'300px'
+        });
+        sr.reveal('.titulo-izquierda',{
+          origin:'right', 
+          duration: 2000,
+          distance:'300px'
+        });
+        sr.reveal('.sesion', {
+          origin:'right', 
+          duration: 2000,
+          distance:'300px'
+        });
+        sr.reveal('.texto', {
+          origin:'right', 
+          duration: 2000,
+          distance:'300px'
+        });
+        sr.reveal('.sesion1', {
+          origin:'up', 
+          duration: 2000,
+          distance:'300px'
+        });
+        sr.reveal('.info', {
+          origin:'left', 
+          duration: 2000,
+          distance:'300px'
+        });
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
+        </script>
+    
+</body>
+</html>

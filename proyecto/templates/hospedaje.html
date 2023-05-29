@@ -1,0 +1,166 @@
+{% extends 'layout.html' %}
+{% block title %} Hospedaje {% endblock %}
+{% block content %}
+<section style="padding-top: 100px; background-color: white; color: black";>
+    <div class="container">
+        <h1 style="color: black">Hospedaje</h1>
+        
+        <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID Hotel</th>
+                <th scope="col">Descripcion</th>
+                <th scope="col">Nombre de Hotel</th>
+                <th scope="col">Valoracion</th>
+                <th scope="col">Estancia</th>
+                <th scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for h in hospedaje %}
+              <tr>
+                <th scope="row">{{ h.idhotel }}</th>
+                <td>{{ h.descripcion }}</td>
+                <td>{{ h.nombreh }}</td>
+                <td>{{ h.valoracion }}</td>
+                <td>{{ h.estancia }}</td>
+                <td>
+
+                <!-- Modal EDITAR  -->
+                  {% if session['nombrec'] == 'Administrador' %}
+                  <a class="btn btn-primary" data-toggle="modal" data-target="#editarModal{{ h.idhotel }}">Editar </a>
+                  {% endif %}
+
+                  {% if session['nombrec'] == 'Administrador' %}
+                  <a class="btn btn-danger" href="/dHosp/{{h.idhotel}}" onclick="return confirm('Seguro que Deseas Eliminar')">Eliminar </a>
+                  {% endif %}
+                </td> 
+            </tr>
+
+            <!-- Modal EDITAR  -->
+<div class="modal fade" id="editarModal{{ h.idhotel }}" tabindex="-1" role="dialog" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarModalLabel"> Editar Hospedaje</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/uHosp" method="POST">
+      <div class="modal-body">
+      
+          <input type="hidden" name="idhotel" value="{{ h.idhotel }}">
+        
+          <div class="form-group">
+            <label for="inputAddress2">Descripcion</label>
+            <input type="text" name="descripcion" value="{{ h.descripcion }}" class="form-control" id="inputAddress2" placeholder="Descripcion" autocomplete="off">
+       </div>
+          <div class="form-group">
+               <label for="inputAddress2">Nombre del Hotel</label>
+               <input type="text" name="nombreh" value="{{ h.nombreh }}" class="form-control" id="inputAddress2" placeholder="Nombre Hotel" autocomplete="off">
+          </div>
+
+          <div class="form-group">
+                <label> Valoracion </label>
+                <select class="custom-select" id="inputGroupSelect01" name="valoracion" value="{{ h.valoracion }}"  placeholder="Valoracion">
+                    <option value="5 estrellas"> 5 Estrellas </option>
+                    <option value="4 estrellas"> 4 Estrellas </option>
+                    <option value="3 estrellas"> 3 Estrellas </option>
+                    <option value="2 estrellas"> 2 Estrellas </option>
+                    <option value="1 estrella"> 1 Estrella </option>
+                  </select>
+           </div>
+
+            <div class="form-group col-md-6">
+              <label for="inputPassword4"> Estancia</label>
+              <input type="text" name="estancia" value="{{h.estancia}}" class="form-control" id="inputPassword4" placeholder="Estancia" autocomplete="off">
+            </div>
+          </div>
+          <div class="form-group">
+            
+          </div>
+
+          
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary" onclick="return confirm('¿Estás seguro de que deseas realizar los cambios?')">Guardar Cambios</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+
+              {% else %}
+              <tr>
+                  <td colspan="5">Sin Registro</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Nuevo Hospedaje
+          </button>
+    </div>
+
+
+<!-- Modal / ELIMINAR-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Hospedaje</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form action="/iHosp" method="POST">    
+          <div class="form-group">
+            <label for="inputAddress2">Descripcion</label>
+            <input type="text" name="descripcion" class="form-control" id="inputAddress2" placeholder="Descripcion" autocomplete="off">
+       </div>
+          <div class="form-group">
+               <label for="inputAddress2">Nombre del Hotel </label>
+               <input type="text" name="nombreh" class="form-control" id="inputAddress2" placeholder="Nombre Hotel" autocomplete="off">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label> Valoracion </label>
+              <select class="custom-select" id="inputGroupSelect01" name="valoracion" placeholder="Valoracion">
+                <option value="5 estrellas"> 5 Estrellas </option>
+                <option value="4 estrellas"> 4 Estrellas </option>
+                <option value="3 estrellas"> 3 Estrellas </option>
+                <option value="2 estrellas"> 2 Estrellas </option>
+                <option value="1 estrella"> 1 Estrella </option>
+                </select>
+         </div>
+          </div>
+
+            <div class="form-group col-md-6">
+              <label for="inputPassword4"> Estancia</label>
+              <input type="text" name="estancia" class="form-control" id="inputPassword4" placeholder="Estancia" autocomplete="off">
+            </div>
+  
+
+          <div class="form-group">
+            
+          </div>
+
+          
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Agregar Hotel</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+{% endblock %}
